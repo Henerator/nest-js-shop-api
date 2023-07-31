@@ -257,3 +257,23 @@ export class AppModule {}
 @Schema({ timestamps: true })
 export class NameModel {}
 ```
+
+## E2E tests
+
+### Jest config
+
+> <font color="#ffcc00">WARNING</font>  
+> Nest JS creates wrong `test/jest-e2e.json` file config
+
+To make it work:
+
+- udpate `test/jest-e2e.json file`
+
+  ```json
+  {
+    "rootDir": "../",
+    "modulePaths": ["<rootDir>"]
+  }
+  ```
+
+- move `*.e2e-spec.ts` into file folder
