@@ -40,6 +40,13 @@ describe('ReviewController (e2e)', () => {
       });
   });
 
+  it('/review/create (POST) - fail (rating validation)', () => {
+    return request(app.getHttpServer())
+      .post('/review/create')
+      .send({ ...reviewDto, rating: 0 })
+      .expect(400);
+  });
+
   it('/review/byProduct/:productId (GET) - success', () => {
     return request(app.getHttpServer())
       .get(`/review/byProduct/${productId}`)

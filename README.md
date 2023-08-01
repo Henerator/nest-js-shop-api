@@ -277,3 +277,66 @@ To make it work:
   ```
 
 - move `*.e2e-spec.ts` into file folder
+
+## Validaation
+
+### Exception filters
+
+модификация ошибок перед отправкой пользователю
+
+```typescript
+@Post('create')
+@UseFitlers(new TestExceptionFilter())
+```
+
+### Pipes
+
+валидация запроса
+
+```typescript
+@UsePipes(new TestPipe())
+@Post('create')
+```
+
+#### Param validation
+
+```typescript
+@Delete(':id')
+async delete(@Param('id', ParseIntPipe) id: number) {}
+```
+
+### Global validation
+
+```typescript
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
+  app.useGlobalFilteres([]);
+  app.useGlobalPipes([]);
+  await app.listen(3000);
+}
+```
+
+### DTO validation
+
+use `class-validator` and `class-transformer` packages
+
+- add DTO model field vaidators
+  ```typescript
+  export class CreateReviewDto {
+    @IsString()
+    name: string;
+  }
+  ```
+- add controller endpoint validation
+
+  ```typescript
+  @Controller('review')
+  export class ReviewController {
+    @UsePipes(new ValidationPipe())
+    @Post('create')
+    async create(@Body() dto: CreateReviewDto) {
+      return this.reviewService.create(dto);
+    }
+  }
+  ```
