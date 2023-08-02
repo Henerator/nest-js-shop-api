@@ -340,3 +340,17 @@ use `class-validator` and `class-transformer` packages
     }
   }
   ```
+
+## Debug
+
+### Chrome analyzer
+
+`chrome://inspect/#devices`
+
+### Stress testing
+
+`npm i -g autocannon`
+
+### Analyze tools
+
+- Clinic.js Doctor
