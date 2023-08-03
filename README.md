@@ -375,3 +375,21 @@ use `class-validator` and `class-transformer` packages
 > **Аутентификация** — ввод кода подтверждения - проверка
 
 > **Авторизация** — предоставление определенному лицу или группе лиц прав на выполнение определенных действий (предоставлние токена для возможности отправлять запросы в систему).
+
+## API auth guards
+
+`npm i @nestjs/passport passport passport-jwt`
+`npm i -D @types/passport-jwt`
+
+- import `PassportModule` in AuthModule
+- create `JwtStrategy extends PassportStrategy`
+  - provide secret
+  - set jwt source
+- import `JwtStrategy` in AuthModule
+- create `JwtAuthGuard extends AuthGuard('jwt')`
+- add api guard
+  ```typescript
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async get() {}
+  ```

@@ -21,6 +21,7 @@ export class AuthService {
       email: dto.email,
       passwordHash,
     });
+
     return user.save();
   }
 
