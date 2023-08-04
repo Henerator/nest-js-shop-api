@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
   UsePipes,
@@ -33,5 +34,10 @@ export class AuthController {
   async login(@Body() dto: AuthDto) {
     const email = await this.authService.validateUser(dto);
     return this.authService.loginUser(email);
+  }
+
+  @Get('users')
+  async get() {
+    return this.authService.getAllUsers();
   }
 }

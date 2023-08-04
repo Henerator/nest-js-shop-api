@@ -50,4 +50,8 @@ export class AuthService {
   async findUser(email: string) {
     return this.userModel.findOne({ email }).exec();
   }
+
+  async getAllUsers(): Promise<User[]> {
+    return this.userModel.find().exec();
+  }
 }
