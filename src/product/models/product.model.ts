@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 import {
   ProductCharacteristic,
   ProductCharacteristicSchema,
@@ -31,7 +32,7 @@ export class Product {
   advantages: string;
 
   @Prop()
-  dsiAdvantages: string;
+  disAdvantages: string;
 
   @Prop([String])
   categories: string[];
@@ -42,5 +43,7 @@ export class Product {
   @Prop({ type: [ProductCharacteristicSchema] })
   characteristics: ProductCharacteristic[];
 }
+
+export type ProductDocument = HydratedDocument<Product>;
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

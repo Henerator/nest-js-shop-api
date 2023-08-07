@@ -6,27 +6,25 @@ import { Review, ReviewDocument } from './models/review.model';
 
 @Injectable()
 export class ReviewService {
-  constructor(
-    @InjectModel(Review.name) private reviewModel: Model<ReviewDocument>,
-  ) {}
+  constructor(@InjectModel(Review.name) private model: Model<ReviewDocument>) {}
 
   public async getAll(): Promise<Review[]> {
-    return this.reviewModel.find().exec();
+    return this.model.find().exec();
   }
 
   async findByProductId(productId: string): Promise<Review[]> {
-    return this.reviewModel.find({ productId }).exec();
+    return this.model.find({ productId }).exec();
   }
 
   async create(dto: CreateReviewDto): Promise<Review> {
-    return this.reviewModel.create(dto);
+    return this.model.create(dto);
   }
 
   async delete(id: string): Promise<Review | null> {
-    return this.reviewModel.findByIdAndRemove(id).exec();
+    return this.model.findByIdAndRemove(id).exec();
   }
 
   async deleteByProductId(productId: string) {
-    return this.reviewModel.deleteMany({ productId }).exec();
+    return this.model.deleteMany({ productId }).exec();
   }
 }
