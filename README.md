@@ -305,6 +305,25 @@ To make it work:
 async delete(@Param('id', ParseIntPipe) id: number) {}
 ```
 
+#### Custom pipe
+
+```typescript
+@Injectable()
+export class IdValidationPipe implements PipeTransform {
+  transform(value: string, metadata: ArgumentMetadata) {
+    if (metadata.type !== 'param') {
+      return value;
+    }
+
+    if (!Types.ObjectId.isValid(value)) {
+      throw new BadRequestException(INVALID_ID_FORMAT);
+    }
+
+    return value;
+  }
+}
+```
+
 ### Global validation
 
 ```typescript

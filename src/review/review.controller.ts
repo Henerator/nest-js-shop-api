@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { UserEmail } from 'src/decorators/user-email.decorator';
+import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { REVIEW_NOT_FOUND } from './errors.const';
 import { ReviewService } from './review.service';
@@ -29,7 +30,7 @@ export class ReviewController {
   }
 
   @Get('byProduct/:productId')
-  async getByProduct(@Param('productId') productId: string) {
+  async getByProduct(@Param('productId', IdValidationPipe) productId: string) {
     return this.reviewService.findByProductId(productId);
   }
 
@@ -40,7 +41,7 @@ export class ReviewController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id', IdValidationPipe) id: string) {
     const deleted = await this.reviewService.delete(id);
     if (!deleted) {
       throw new HttpException(REVIEW_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -48,7 +49,9 @@ export class ReviewController {
   }
 
   @Delete('byProduct/:productId')
-  async deleteByProduct(@Param('productId') productId: string) {
+  async deleteByProduct(
+    @Param('productId', IdValidationPipe) productId: string,
+  ) {
     const deleted = await this.reviewService.deleteByProductId(productId);
     return deleted.deletedCount;
   }
