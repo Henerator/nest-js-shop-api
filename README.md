@@ -412,3 +412,75 @@ use `class-validator` and `class-transformer` packages
   @Get()
   async get() {}
   ```
+
+## Aggregation
+
+```typescript
+async findWithReviews(dto: FindProductDto) {
+    return this.model
+      .aggregate([
+        {
+          $match: {
+            categories: dto.category,
+          },
+        },
+        {
+          $sort: {
+            _id: 1,
+          },
+        },
+        {
+          $limit: dto.limit,
+        },
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'productId',
+            as: 'reviews',
+          },
+        },
+        {
+          $addFields: {
+            reviewCount: { $size: '$reviews' },
+            reviewAvg: { $avg: '$reviews.rating' },
+          },
+        },
+      ])
+      .exec() as unknown as (Product & {
+      reviews: Review[];
+      reviewCount: number;
+      reviewAvg: number;
+    })[];
+  }
+```
+
+### Aggregation functions
+
+```typescript
+async findWithReviews(dto: FindProductDto) {
+    return this.model
+      .aggregate([
+        ...,
+        {
+          $addFields: {
+            reviewCount: { $size: '$reviews' },
+            reviewAvg: { $avg: '$reviews.rating' },
+            reviews: {
+              $function: {
+                body: `function (reviews) {
+                  reviews.sort(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+                  );
+                  return reviews;
+                }`,
+                args: ['$reviews'],
+                lang: 'js',
+              },
+            },
+          },
+        },
+      ])
+}
+
+```
