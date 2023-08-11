@@ -8,7 +8,7 @@ import { Review, ReviewDocument } from './models/review.model';
 export class ReviewService {
   constructor(@InjectModel(Review.name) private model: Model<ReviewDocument>) {}
 
-  public async getAll(): Promise<Review[]> {
+  async getAll(): Promise<Review[]> {
     return this.model.find().exec();
   }
 

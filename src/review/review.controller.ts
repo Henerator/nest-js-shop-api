@@ -20,29 +20,30 @@ import { ReviewService } from './review.service';
 
 @Controller('review')
 export class ReviewController {
-  constructor(private readonly reviewService: ReviewService) {}
+  constructor(private readonly service: ReviewService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
   async get(@UserEmail() email: string) {
     console.log('[LOG] ', email);
-    return this.reviewService.getAll();
+    return this.service.getAll();
   }
 
   @Get('byProduct/:productId')
   async getByProduct(@Param('productId', IdValidationPipe) productId: string) {
-    return this.reviewService.findByProductId(productId);
+    return this.service.findByProductId(productId);
   }
 
   @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateReviewDto) {
-    return this.reviewService.create(dto);
+    return this.service.create(dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Param('id', IdValidationPipe) id: string) {
-    const deleted = await this.reviewService.delete(id);
+    const deleted = await this.service.delete(id);
     if (!deleted) {
       throw new HttpException(REVIEW_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
@@ -52,7 +53,7 @@ export class ReviewController {
   async deleteByProduct(
     @Param('productId', IdValidationPipe) productId: string,
   ) {
-    const deleted = await this.reviewService.deleteByProductId(productId);
+    const deleted = await this.service.deleteByProductId(productId);
     return deleted.deletedCount;
   }
 }

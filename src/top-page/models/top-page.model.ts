@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Advantage, AdvantageSchema } from './advantage.interface';
-import { HhData, HhDataSchema } from './hh-data.interface';
+import { Advantage, AdvantageSchema } from './advantage.model';
+import { HhData, HhDataSchema } from './hh-data.model';
 import { TopLevelCategory } from './top-level-category.enum';
 
 @Schema({ timestamps: true })
@@ -25,7 +25,7 @@ export class TopPage {
   hh?: HhData;
 
   @Prop({ type: [AdvantageSchema] })
-  advantages: Advantage;
+  advantages: Advantage[];
 
   @Prop()
   seoText: string;
