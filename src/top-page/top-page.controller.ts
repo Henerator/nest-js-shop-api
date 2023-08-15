@@ -84,4 +84,9 @@ export class TopPageController {
     }
     return updated;
   }
+
+  @Get('search/:text')
+  async search(@Param('text') text: string) {
+    return await this.service.findByText(text);
+  }
 }

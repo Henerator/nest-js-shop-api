@@ -484,3 +484,30 @@ async findWithReviews(dto: FindProductDto) {
 }
 
 ```
+
+## Text search
+
+### Property
+
+```typescript
+@Prop({ text: true })
+title: string
+```
+
+For one field in model only (it takes firs property with `{ text: true }` option)
+
+### Multiple property text index
+
+```typescript
+ModelSchema.index({ title: 'text', seoText: 'text' });
+```
+
+### Nested property text index
+
+Add wildcard text index for whole model
+
+```typescript
+TopPageSchema.index({ '$**': 'text' });
+```
+
+Use `elastic search` for more complex text search

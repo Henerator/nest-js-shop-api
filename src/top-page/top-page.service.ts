@@ -27,6 +27,17 @@ export class TopPageService {
     return this.model.find({ firstCategory }, { alias: 1, title: 1 }).exec();
   }
 
+  async findByText(text: string) {
+    return this.model
+      .find({
+        $text: {
+          $search: text,
+          $caseSensitive: false,
+        },
+      })
+      .exec();
+  }
+
   async create(dto: CreateTopPageDto): Promise<TopPage> {
     return this.model.create(dto);
   }
