@@ -485,6 +485,21 @@ async findWithReviews(dto: FindProductDto) {
 
 ```
 
+### Group
+
+```typescript
+async findByCategory(firstCategory: TopLevelCategory) {
+  return this.model
+    .aggregate()
+    .match({ firstCategory })
+    .group({
+      _id: { secondCategory: '$secondCategory' },
+      pages: { $push: { alias: '$alias', title: '$title' } },
+    })
+    .exec();
+}
+```
+
 ## Text search
 
 ### Property
