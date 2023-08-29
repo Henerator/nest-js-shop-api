@@ -554,4 +554,28 @@ Use `elastic search` for more complex text search
 - `npm i date-fns` - work with dates
 
 ### Convert images to webp
+
 `npm i sharp`
+
+### Serve files
+
+`npm i @nestjs/serve-static`
+
+> <font color="#ffcc00">WARNING</font>  
+> Use Nginx to serve files instead of static serve module
+
+```typescript
+@Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: `${path}/uploads`,
+      serveRoot: '/static',
+    }),
+  ],
+  providers: [FilesService],
+  controllers: [FilesController],
+})
+export class FilesModule {}
+```
+
+`GET request to http://localhost:3000/static/2023-08-29/1.webp`
