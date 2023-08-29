@@ -151,7 +151,7 @@ function bootstrap() {
 ```typescript
 @HttpCode(204)
 @Header('Cache-Control', 'none')
-@Rediirect('htps://path', 301)
+@Redirect('htps://path', 301)
 @Get('item/:id')
 endpoint() {}
 ```
@@ -278,7 +278,7 @@ To make it work:
 
 - move `*.e2e-spec.ts` into file folder
 
-## Validaation
+## Validation
 
 ### Exception filters
 
@@ -526,3 +526,29 @@ TopPageSchema.index({ '$**': 'text' });
 ```
 
 Use `elastic search` for more complex text search
+
+## Load files
+
+- load file first
+- create model with file url
+
+```typescript
+  @Post('upload')
+  @HttpCode(200)
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('files'))
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<FileResponse[]> {
+    return this.service.saveFiles([file]);
+  }
+```
+
+### Packages
+
+- `npm i -D @types/multer` - Express.Multer.File
+- `npm i fs-extra` - work with file system
+- `npm i -D @types/fs-extra`
+- `npm i app-root-path` - get app root folder on any platform
+- `npm i -D @types/app-root-path`
+- `npm i date-fns` - work with dates
