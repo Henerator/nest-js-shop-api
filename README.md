@@ -552,3 +552,6 @@ Use `elastic search` for more complex text search
 - `npm i app-root-path` - get app root folder on any platform
 - `npm i -D @types/app-root-path`
 - `npm i date-fns` - work with dates
+
+### Convert images to webp
+`npm i sharp`
